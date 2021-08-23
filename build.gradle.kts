@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm") version Versions.KOTLIN
     kotlin("plugin.serialization") version Versions.KOTLIN
@@ -19,6 +21,13 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-client-mock:${Versions.KTOR}")
+}
+
+val compileKotlin: KotlinCompile by tasks
+
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+    freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
 }
 
 tasks.test {
