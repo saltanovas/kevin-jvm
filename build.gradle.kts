@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version Versions.KOTLIN
     kotlin("plugin.serialization") version Versions.KOTLIN
     id("org.jlleitschuh.gradle.ktlint") version Versions.KTLINT
+    `maven-publish`
 }
 
 group = "eu.kevin.api"
