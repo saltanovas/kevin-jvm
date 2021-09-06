@@ -3,11 +3,13 @@ package eu.kevin.api.models.exception
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
-class KevinApiClientErrorException internal constructor(
-    val response: ErrorResponse
+class KevinApiErrorException internal constructor(
+    val responseStatusCode: Int,
+    val responseBody: ClientError?
 ) : Exception() {
+
     @Serializable
-    data class ErrorResponse(
+    data class ClientError(
         val error: Error,
         val data: JsonElement
     )

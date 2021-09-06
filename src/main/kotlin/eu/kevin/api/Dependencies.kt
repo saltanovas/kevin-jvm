@@ -1,6 +1,6 @@
 package eu.kevin.api
 
-import eu.kevin.api.models.exception.KevinApiClientErrorException
+import eu.kevin.api.models.exception.KevinApiErrorException
 import eu.kevin.api.serialization.BigDecimalSerializer
 import eu.kevin.api.serialization.LocalDateSerializer
 import io.ktor.client.*
@@ -29,21 +29,21 @@ internal object Dependencies {
             HttpResponseValidator {
                 handleResponseException { exception ->
                     when (exception) {
-                        is ClientRequestException -> {
-                            when (exception.response.status) {
-                                HttpStatusCode.BadRequest -> {
-                                    throw KevinApiClientErrorException(
-                                        response = serializer.decodeFromString(exception.response.readText())
-                                    )
-                                }
-                            }
+                        is ResponseException -> {
+                            val status = exception.response.status
+                            throw KevinApiErrorException(
+                                responseStatusCode = status.value,
+                                responseBody = if (status == HttpStatusCode.BadRequest)
+                                    serializer.decodeFromString(exception.response.readText())
+                                else null
+                            )
                         }
                     }
                 }
             }
         }
     }
-    private val serializer: Json by lazy {
+    val serializer: Json by lazy {
         Json {
             serializersModule = SerializersModule {
                 contextual(LocalDate::class, LocalDateSerializer)
