@@ -14,7 +14,7 @@ To be updated
 
 > Parameter names and response data match those defined in API documentation.
 
-> Detailed API documentation can be found <a href="https://docs.getkevin.eu/public/platform" target="_blank">here</a>.
+> Detailed API documentation can be found <a href="https://docs.kevin.eu/public/platform" target="_blank">here</a>.
 
 To be updated
 
@@ -25,4 +25,4 @@ Email: help@kevin.eu
 ## License
 
 - **[MIT license](LICENSE.md)**
-- Copyright© 2021 <a href="https://www.getkevin.eu/" target="_blank">kevin.</a>
+- Copyright© 2021 <a href="https://www.kevin.eu/" target="_blank">kevin.</a>

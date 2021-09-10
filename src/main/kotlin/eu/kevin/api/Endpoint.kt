@@ -1,7 +1,7 @@
 package eu.kevin.api
 
 internal object Endpoint {
-    const val BASE = "https://api.getkevin.eu/platform"
+    const val BASE = "https://api.kevin.eu/platform"
     const val VERSION = "/v0.3"
 
     object Path {
