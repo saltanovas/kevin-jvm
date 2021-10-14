@@ -1,14 +1,14 @@
 package eu.kevin.api.services.payment
 
 import eu.kevin.api.Endpoint
-import eu.kevin.api.models.payment.getPaymentStatus.GetPaymentStatusRequest
-import eu.kevin.api.models.payment.getPaymentStatus.GetPaymentStatusResponse
-import eu.kevin.api.models.payment.initiatePayment.request.InitiatePaymentRequest
-import eu.kevin.api.models.payment.initiatePayment.request.InitiatePaymentRequestBody
-import eu.kevin.api.models.payment.initiatePayment.response.InitiatePaymentResponse
-import eu.kevin.api.models.payment.initiatePaymentRefund.InitiatePaymentRefundRequest
-import eu.kevin.api.models.payment.initiatePaymentRefund.InitiatePaymentRefundRequestBody
-import eu.kevin.api.models.payment.initiatePaymentRefund.InitiatePaymentRefundResponse
+import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequest
+import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequestBody
+import eu.kevin.api.models.payment.payment.response.InitiatePaymentResponse
+import eu.kevin.api.models.payment.paymentStatus.GetPaymentStatusRequest
+import eu.kevin.api.models.payment.paymentStatus.GetPaymentStatusResponse
+import eu.kevin.api.models.payment.refund.InitiatePaymentRefundRequest
+import eu.kevin.api.models.payment.refund.InitiatePaymentRefundRequestBody
+import eu.kevin.api.models.payment.refund.InitiatePaymentRefundResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -18,7 +18,7 @@ class PaymentClient internal constructor(
 ) {
     suspend fun initiatePayment(request: InitiatePaymentRequest): InitiatePaymentResponse =
         httpClient.post(
-            path = Endpoint.Path.initiatePayment(),
+            path = Endpoint.Paths.Payment.initiatePayment(),
             body = InitiatePaymentRequestBody(
                 amount = request.amount,
                 currencyCode = request.currencyCode,
@@ -43,7 +43,7 @@ class PaymentClient internal constructor(
 
     suspend fun getPaymentStatus(request: GetPaymentStatusRequest): GetPaymentStatusResponse =
         httpClient.get(
-            path = Endpoint.Path.getPaymentStatus(paymentId = request.paymentId)
+            path = Endpoint.Paths.Payment.getPaymentStatus(paymentId = request.paymentId)
         ) {
             request.run {
                 headers {
@@ -54,7 +54,7 @@ class PaymentClient internal constructor(
 
     suspend fun initiatePaymentRefund(request: InitiatePaymentRefundRequest): InitiatePaymentRefundResponse =
         httpClient.post(
-            path = Endpoint.Path.initiatePaymentRefund(paymentId = request.paymentId),
+            path = Endpoint.Paths.Payment.initiatePaymentRefund(paymentId = request.paymentId),
             body = InitiatePaymentRefundRequestBody(amount = request.amount)
         ) {
             request.run {
