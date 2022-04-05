@@ -1,6 +1,7 @@
 package eu.kevin.api.services.payment
 
 import eu.kevin.api.Endpoint
+import eu.kevin.api.exceptions.KevinApiErrorException
 import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequest
 import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequestBody
 import eu.kevin.api.models.payment.payment.response.InitiatePaymentResponse
@@ -12,10 +13,18 @@ import eu.kevin.api.models.payment.refund.InitiatePaymentRefundResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlin.jvm.Throws
 
+/**
+ * Implements API Methods of the [Payment initiation service](https://docs.kevin.eu/public/platform/v0.3#tag/Payment-Initiation-Service)
+ */
 class PaymentClient internal constructor(
     private val httpClient: HttpClient
 ) {
+    /**
+     * API Method: [Initiate payment](https://docs.kevin.eu/public/platform/v0.3#operation/initiatePayment)
+     */
+    @Throws(KevinApiErrorException::class)
     suspend fun initiatePayment(request: InitiatePaymentRequest): InitiatePaymentResponse =
         httpClient.post(
             path = Endpoint.Paths.Payment.initiatePayment(),
@@ -41,6 +50,10 @@ class PaymentClient internal constructor(
             }
         }
 
+    /**
+     * API Method: [Get payment status](https://docs.kevin.eu/public/platform/v0.3#operation/getPaymentStatus)
+     */
+    @Throws(KevinApiErrorException::class)
     suspend fun getPaymentStatus(request: GetPaymentStatusRequest): GetPaymentStatusResponse =
         httpClient.get(
             path = Endpoint.Paths.Payment.getPaymentStatus(paymentId = request.paymentId)
@@ -52,6 +65,10 @@ class PaymentClient internal constructor(
             }
         }
 
+    /**
+     * API Method: [Initiate payment refund](https://docs.kevin.eu/public/platform/v0.3#operation/initiatePaymentRefund)
+     */
+    @Throws(KevinApiErrorException::class)
     suspend fun initiatePaymentRefund(request: InitiatePaymentRefundRequest): InitiatePaymentRefundResponse =
         httpClient.post(
             path = Endpoint.Paths.Payment.initiatePaymentRefund(paymentId = request.paymentId),
