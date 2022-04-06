@@ -1,10 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     kotlin("jvm") version Versions.KOTLIN
     kotlin("plugin.serialization") version Versions.KOTLIN
     id("org.jlleitschuh.gradle.ktlint") version Versions.KTLINT
     `maven-publish`
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
 group = "eu.kevin"
@@ -52,9 +54,31 @@ configure<PublishingExtension> {
     publications {
         create<MavenPublication>("kotlin") {
             from(components["kotlin"])
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
+        }
+    }
+}
+
+val props = File("./local.properties").let { file ->
+    Properties().apply {
+        if (file.exists()) {
+            load(file.inputStream())
+        } else {
+            setProperty("ossrhUsername", System.getenv("OSSRH_USERNAME"))
+            setProperty("ossrhPassword", System.getenv("OSSRH_PASSWORD"))
+            setProperty("sonatypeStagingProfileId", System.getenv("SONATYPE_STAGING_PROFILE_ID"))
+            setProperty("sdkVersion", System.getenv("SDK_RELEASE_VERSION"))
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username.set(props.getProperty("ossrhUsername"))
+            password.set(props.getProperty("ossrhPassword"))
+            stagingProfileId.set(props.getProperty("sonatypeStagingProfileId"))
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
         }
     }
 }
