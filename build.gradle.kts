@@ -65,7 +65,6 @@ val props = File("./local.properties").let { file ->
         } else {
             setProperty("ossrhUsername", System.getenv("OSSRH_USERNAME"))
             setProperty("ossrhPassword", System.getenv("OSSRH_PASSWORD"))
-            setProperty("sonatypeStagingProfileId", System.getenv("SONATYPE_STAGING_PROFILE_ID"))
             setProperty("sdkVersion", System.getenv("SDK_RELEASE_VERSION"))
         }
     }
@@ -76,7 +75,6 @@ nexusPublishing {
         sonatype {
             username.set(props.getProperty("ossrhUsername"))
             password.set(props.getProperty("ossrhPassword"))
-            stagingProfileId.set(props.getProperty("sonatypeStagingProfileId"))
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
             snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
         }
