@@ -1,12 +1,13 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     kotlin("jvm") version Versions.KOTLIN
     kotlin("plugin.serialization") version Versions.KOTLIN
+    id("org.jetbrains.dokka") version Versions.KOTLIN
     id("org.jlleitschuh.gradle.ktlint") version Versions.KTLINT
     `maven-publish`
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    signing
+    id("io.github.gradle-nexus.publish-plugin") version Versions.NEXUS_PUBLISH
 }
 
 group = "eu.kevin"
@@ -26,11 +27,24 @@ dependencies {
     testImplementation("io.ktor:ktor-client-mock:${Versions.KTOR}")
 }
 
-val compileKotlin: KotlinCompile by tasks
+tasks {
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
+        }
+    }
 
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-    freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
+    create<Jar>("dokkaJar") {
+        archiveClassifier.set("javadoc")
+        from(dokkaJavadoc)
+        dependsOn(dokkaJavadoc)
+    }
+
+    create<Jar>("sourcesJar") {
+        archiveClassifier.set("sources")
+        from(sourceSets["main"].allSource)
+    }
 }
 
 tasks.test {
@@ -50,14 +64,6 @@ fun Project.configureCodeStyleRules() = configure<org.jlleitschuh.gradle.ktlint.
     )
 }
 
-configure<PublishingExtension> {
-    publications {
-        create<MavenPublication>("kotlin") {
-            from(components["kotlin"])
-        }
-    }
-}
-
 val props = File("./local.properties").let { file ->
     Properties().apply {
         if (file.exists()) {
@@ -65,9 +71,62 @@ val props = File("./local.properties").let { file ->
         } else {
             setProperty("ossrhUsername", System.getenv("OSSRH_USERNAME"))
             setProperty("ossrhPassword", System.getenv("OSSRH_PASSWORD"))
+            setProperty("mavenSigningKeyId", System.getenv("MAVEN_SIGNING_KEY_ID"))
+            setProperty("mavenSigningKey", System.getenv("MAVEN_SIGNING_KEY"))
+            setProperty("mavenSigningKeyPassword", System.getenv("MAVEN_SIGNING_KEY_PASSWORD"))
             setProperty("sdkVersion", System.getenv("SDK_RELEASE_VERSION"))
         }
     }
+}
+
+configure<PublishingExtension> {
+    publications {
+        create<MavenPublication>("kotlin") {
+            from(components["kotlin"])
+
+            artifact(tasks["sourcesJar"])
+            artifact(tasks["dokkaJar"])
+            version = props.getProperty("sdkVersion")
+
+            pom {
+                name.set("kevin. JVM")
+                description.set("JVM client implementing kevin. platform API")
+                url.set("https://github.com/getkevin/kevin-jvm")
+
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("http://www.opensource.org/licenses/mit-license.php")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("mobile-kevin-dev")
+                        name.set("Kevin mobile developers")
+                        email.set("mobile@kevin.eu")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:github.com/getkevin/kevin-jvm.git")
+                    developerConnection.set("scm:git:ssh://github.com/getkevin/kevin-jvm.git")
+                    url.set("https://github.com/getkevin/kevin-jvm/tree/master")
+                }
+            }
+        }
+    }
+}
+
+signing {
+    isRequired = true
+    useInMemoryPgpKeys(
+        props.getProperty("mavenSigningKeyId"),
+        props.getProperty("mavenSigningKey"),
+        props.getProperty("mavenSigningKeyPassword")
+    )
+    sign(tasks["sourcesJar"], tasks["dokkaJar"])
+    sign(publishing.publications["kotlin"])
 }
 
 nexusPublishing {
