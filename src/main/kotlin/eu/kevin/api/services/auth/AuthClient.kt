@@ -2,6 +2,7 @@ package eu.kevin.api.services.auth
 
 import eu.kevin.api.Endpoint
 import eu.kevin.api.exceptions.KevinApiErrorException
+import eu.kevin.api.extensions.appendQueryParameter
 import eu.kevin.api.models.auth.authentication.request.StartAuthenticationRequest
 import eu.kevin.api.models.auth.authentication.request.StartAuthenticationRequestBody
 import eu.kevin.api.models.auth.authentication.response.StartAuthenticationResponse
@@ -13,7 +14,6 @@ import eu.kevin.api.models.auth.tokenContent.ReceiveTokenContentResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlin.jvm.Throws
 
 /**
  * Implements API Methods of the [Authentication service](https://docs.kevin.eu/public/platform/v0.3#tag/Authentication-Service)
@@ -26,7 +26,7 @@ class AuthClient internal constructor(
      */
     @Throws(KevinApiErrorException::class)
     suspend fun startAuthentication(request: StartAuthenticationRequest): StartAuthenticationResponse =
-        httpClient.post(
+        httpClient.post<StartAuthenticationResponse>(
             path = Endpoint.Paths.Auth.startAuthentication(),
             body = StartAuthenticationRequestBody(
                 email = request.email,
@@ -45,6 +45,12 @@ class AuthClient internal constructor(
                     append("Redirect-URL", redirectUrl)
                 }
             }
+        }.run {
+            copy(
+                authorizationLink = Url(authorizationLink)
+                    .appendQueryParameter("lang", request.lang)
+                    .toString()
+            )
         }
 
     /**

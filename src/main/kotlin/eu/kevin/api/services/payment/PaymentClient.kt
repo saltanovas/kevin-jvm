@@ -2,6 +2,7 @@ package eu.kevin.api.services.payment
 
 import eu.kevin.api.Endpoint
 import eu.kevin.api.exceptions.KevinApiErrorException
+import eu.kevin.api.extensions.appendQueryParameter
 import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequest
 import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequestBody
 import eu.kevin.api.models.payment.payment.response.InitiatePaymentResponse
@@ -13,7 +14,6 @@ import eu.kevin.api.models.payment.refund.InitiatePaymentRefundResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlin.jvm.Throws
 
 /**
  * Implements API Methods of the [Payment initiation service](https://docs.kevin.eu/public/platform/v0.3#tag/Payment-Initiation-Service)
@@ -26,7 +26,7 @@ class PaymentClient internal constructor(
      */
     @Throws(KevinApiErrorException::class)
     suspend fun initiatePayment(request: InitiatePaymentRequest): InitiatePaymentResponse =
-        httpClient.post(
+        httpClient.post<InitiatePaymentResponse>(
             path = Endpoint.Paths.Payment.initiatePayment(),
             body = InitiatePaymentRequestBody(
                 amount = request.amount,
@@ -48,6 +48,12 @@ class PaymentClient internal constructor(
                     webhookUrl?.let { append("Webhook-URL", it) }
                 }
             }
+        }.run {
+            copy(
+                confirmLink = confirmLink?.let {
+                    Url(it).appendQueryParameter("lang", request.lang).toString()
+                }
+            )
         }
 
     /**
@@ -57,13 +63,7 @@ class PaymentClient internal constructor(
     suspend fun getPaymentStatus(request: GetPaymentStatusRequest): GetPaymentStatusResponse =
         httpClient.get(
             path = Endpoint.Paths.Payment.getPaymentStatus(paymentId = request.paymentId)
-        ) {
-            request.run {
-                headers {
-                    accessToken?.let { append(HttpHeaders.Authorization, "Bearer $it") }
-                }
-            }
-        }
+        )
 
     /**
      * API Method: [Initiate payment refund](https://docs.kevin.eu/public/platform/v0.3#operation/initiatePaymentRefund)
