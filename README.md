@@ -20,13 +20,13 @@ Package and installation instructions are available at the [Maven Central Reposi
 <dependency>
   <groupId>eu.kevin</groupId>
   <artifactId>kevin-jvm</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'eu.kevin:kevin-jvm:0.2.0'
+implementation 'eu.kevin:kevin-jvm:0.2.1'
 ```
 
 ## Usage Examples
