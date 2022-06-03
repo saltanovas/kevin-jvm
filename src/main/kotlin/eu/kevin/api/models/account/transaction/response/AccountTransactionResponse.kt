@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 @Serializable
 data class AccountTransactionResponse(
-    val id: String,
+    val id: String? = null,
     val isBooked: Boolean,
     val amount: BigDecimal,
     val currencyCode: String,
