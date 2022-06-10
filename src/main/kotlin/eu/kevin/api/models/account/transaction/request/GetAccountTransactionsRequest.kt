@@ -1,11 +1,11 @@
 package eu.kevin.api.models.account.transaction.request
 
 import eu.kevin.api.models.account.AccountRequestHeaders
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class GetAccountTransactionsRequest(
     val accountId: String,
-    val dateFrom: LocalDate,
-    val dateTo: LocalDate,
+    val dateFrom: LocalDateTime,
+    val dateTo: LocalDateTime,
     val headers: AccountRequestHeaders
 )
