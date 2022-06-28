@@ -33,14 +33,13 @@ object Dependencies {
                     when (exception) {
                         is ResponseException -> {
                             val status = exception.response.status
-                            if (status == HttpStatusCode.BadRequest) {
-                                throw KevinApiErrorException(
-                                    responseStatusCode = status.value,
-                                    responseBody = serializer.decodeFromString(exception.response.readText())
-                                )
-                            } else {
-                                throw exception
-                            }
+                            throw KevinApiErrorException(
+                                responseStatusCode = status.value,
+                                responseBody = if (status == HttpStatusCode.BadRequest)
+                                    serializer.decodeFromString(exception.response.readText())
+                                else null,
+                                externalMessage = exception.message
+                            )
                         }
                     }
                 }
