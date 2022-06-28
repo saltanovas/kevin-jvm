@@ -5,7 +5,8 @@ import kotlinx.serialization.json.JsonElement
 
 class KevinApiErrorException internal constructor(
     val responseStatusCode: Int,
-    val responseBody: ClientError?
+    val responseBody: ClientError?,
+    val externalMessage: String?
 ) : Exception() {
 
     @Serializable

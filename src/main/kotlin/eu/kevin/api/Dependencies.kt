@@ -37,7 +37,8 @@ object Dependencies {
                                 responseStatusCode = status.value,
                                 responseBody = if (status == HttpStatusCode.BadRequest)
                                     serializer.decodeFromString(exception.response.readText())
-                                else null
+                                else null,
+                                externalMessage = exception.message
                             )
                         }
                     }
