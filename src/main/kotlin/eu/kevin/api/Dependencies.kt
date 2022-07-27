@@ -46,7 +46,7 @@ object Dependencies {
             }
         }
     }
-    internal val serializer: Json by lazy {
+    val serializer: Json by lazy {
         Json {
             serializersModule = SerializersModule {
                 contextual(LocalDate::class, LocalDateSerializer)
