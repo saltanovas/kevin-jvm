@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AccountResponse(
     val id: String? = null,
-    val iban: String,
+    val iban: String? = null,
     val bban: String? = null,
     val paym: String? = null,
     val pan: String? = null,
