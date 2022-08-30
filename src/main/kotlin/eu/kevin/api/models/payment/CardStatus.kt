@@ -11,7 +11,7 @@ enum class CardStatus {
     @SerialName("payment_success") PAYMENT_SUCCESS,
     @SerialName("payment_failure") PAYMENT_FAILURE,
     @SerialName("hold") HOLD,
-    @SerialName("canceled") CANCELED,
+    @SerialName("cancelled") CANCELLED,
     @SerialName("in_progress") IN_PROGRESS,
     @SerialName("invoice_viewed") INVOICE_VIEWED,
     @SerialName("invoice_refunded") INVOICE_REFUNDED,

@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class HybridStatus {
     @SerialName("created") CREATED,
-    @SerialName("canceled") CANCELED,
+    @SerialName("cancelled") CANCELLED,
     @SerialName("expired") EXPIRED,
 }
