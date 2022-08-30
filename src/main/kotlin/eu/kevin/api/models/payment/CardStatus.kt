@@ -29,9 +29,12 @@ enum class CardStatus {
     @SerialName("chargeback") CHARGEBACK,
     @SerialName("representation") REPRESENTATION,
     @SerialName("retrieval") RETRIEVAL,
-    @SerialName("prearbitrationgood_faith") PREARBITRATIONGOOD_FAITH,
+    @SerialName("prearbitration") PREARBITRATION,
     @SerialName("good_faith") GOOD_FAITH,
     @SerialName("fraud_advice") FRAUD_ADVICE,
     @SerialName("failed") FAILED,
-    @SerialName("refund_forbidden") REFUND_FORBIDDEN
+    @SerialName("refund_forbidden") REFUND_FORBIDDEN,
+    @SerialName("completed") COMPLETED,
+    @SerialName("partially_refunded") PARTIALLY_REFUNDED,
+    @SerialName("refunded") REFUNDED
 }
