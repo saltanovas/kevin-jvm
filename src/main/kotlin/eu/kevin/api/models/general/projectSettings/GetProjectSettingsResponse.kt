@@ -9,7 +9,7 @@ data class GetProjectSettingsResponse(
     val isSandbox: Boolean,
     val paymentMethods: List<String>,
     val allowedRefundsFor: List<String>? = null,
-    val forceRedirectToBankMode: ForceRedirectToBankMode,
+    val forceRedirectToBankMode: ForceRedirectToBankMode? = null,
     val cardRefundDayLimit: Int,
     val bankRefundDayLimit: Int,
     val redirectPreferred: Boolean,

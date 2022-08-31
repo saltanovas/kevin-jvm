@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 data class PaymentRefundWebhookPayload(
     val id: String,
     val paymentId: String,
-    val statusGroup: StatusGroup,
+    val statusGroup: StatusGroup? = null,
     val type: String
 )

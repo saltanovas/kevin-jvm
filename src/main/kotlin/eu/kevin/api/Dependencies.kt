@@ -55,6 +55,7 @@ object Dependencies {
             }
             ignoreUnknownKeys = true
             isLenient = true
+            coerceInputValues = true
 
             // use explicitNulls=false flag instead when kotlinx.serialization 1.3 becomes stable
             // to skip serialization of properties with null values

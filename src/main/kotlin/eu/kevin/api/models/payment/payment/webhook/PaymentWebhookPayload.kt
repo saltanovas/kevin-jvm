@@ -12,6 +12,6 @@ data class PaymentWebhookPayload(
     val bankStatus: BankStatus? = null,
     val cardStatus: CardStatus? = null,
     val hybridStatus: HybridStatus? = null,
-    val statusGroup: StatusGroup,
+    val statusGroup: StatusGroup? = null,
     val type: String,
 )

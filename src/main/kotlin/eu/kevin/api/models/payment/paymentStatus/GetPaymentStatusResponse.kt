@@ -11,6 +11,6 @@ data class GetPaymentStatusResponse(
     val cardStatus: CardStatus? = null,
     val bankStatus: BankStatus? = null,
     val hybridStatus: HybridStatus? = null,
-    val group: StatusGroup,
+    val group: StatusGroup? = null,
     val error: GetPaymentStatusResponseError? = null
 )

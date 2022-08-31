@@ -9,7 +9,7 @@ import java.math.BigDecimal
 
 @Serializable
 data class AccountBalanceResponse(
-    val type: AccountBalanceType,
+    val type: AccountBalanceType? = null,
     val amount: BigDecimal,
     val currencyCode: String
 )
