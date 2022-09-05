@@ -1,10 +1,12 @@
 package eu.kevin.api.models.payment
 
+import eu.kevin.api.serializers.enums.CardStatusSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Serializable(with = CardStatusSerializer::class)
 enum class CardStatus {
+    @SerialName("unknown") UNKNOWN_VALUE,
     @SerialName("started") STARTED,
     @SerialName("issued") ISSUED,
     @SerialName("paid") PAID,

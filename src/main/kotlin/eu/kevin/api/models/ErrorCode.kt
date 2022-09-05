@@ -1,10 +1,12 @@
 package eu.kevin.api.models
 
+import eu.kevin.api.serializers.enums.ErrorCodeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Serializable(with = ErrorCodeSerializer::class)
 enum class ErrorCode(val code: Int) {
+    @SerialName("-1") UNKNOWN_VALUE(-1),
     @SerialName("10000") SYSTEM_ERROR(10000),
     @SerialName("20017") INSUFFICIENT_FUNDS(20017),
     @SerialName("20022") CREDITOR_ACCOUNT_NUMBER_INVALID_OR_MISSING(20022),

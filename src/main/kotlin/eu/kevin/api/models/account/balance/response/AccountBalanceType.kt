@@ -1,10 +1,12 @@
 package eu.kevin.api.models.account.balance.response
 
+import eu.kevin.api.serializers.enums.AccountBalanceTypeSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Serializable(with = AccountBalanceTypeSerializer::class)
 enum class AccountBalanceType {
+    @SerialName("unknown") UNKNOWN_VALUE,
     @SerialName("closingBooked") CLOSING_BOOKED,
     @SerialName("expected") EXPECTED,
     @SerialName("authorised") AUTHORISED,

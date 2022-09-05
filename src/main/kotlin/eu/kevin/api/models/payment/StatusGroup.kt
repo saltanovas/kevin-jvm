@@ -1,10 +1,12 @@
 package eu.kevin.api.models.payment
 
+import eu.kevin.api.serializers.enums.StatusGroupSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Serializable(with = StatusGroupSerializer::class)
 enum class StatusGroup {
+    @SerialName("unknown") UNKNOWN_VALUE,
     @SerialName("started") STARTED,
     @SerialName("pending") PENDING,
     @SerialName("completed") COMPLETED,

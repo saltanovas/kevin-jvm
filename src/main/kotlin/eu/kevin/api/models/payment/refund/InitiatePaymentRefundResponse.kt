@@ -15,7 +15,7 @@ data class InitiatePaymentRefundResponse(
     val id: Int,
     val paymentId: String,
     val amount: BigDecimal,
-    val statusGroup: StatusGroup? = null,
+    val statusGroup: StatusGroup,
     val webhookUrl: String,
     val createdAt: LocalDateTime
 )

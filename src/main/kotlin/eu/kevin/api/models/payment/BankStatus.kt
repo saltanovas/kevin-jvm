@@ -1,10 +1,12 @@
 package eu.kevin.api.models.payment
 
+import eu.kevin.api.serializers.enums.BankStatusSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Serializable(with = BankStatusSerializer::class)
 enum class BankStatus(val value: String) {
+    @SerialName("UNKNOWN") UNKNOWN_VALUE("UNKNOWN"),
     @SerialName("STRD") STARTED("STRD"),
     @SerialName("ACCC") ACCEPTED_SETTLEMENT_COMPLETED_CREDITOR("ACCC"),
     @SerialName("ACCP") ACCEPTED_CUSTOMER_PROFILE("ACCP"),
