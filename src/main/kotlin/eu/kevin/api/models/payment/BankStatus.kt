@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable(with = BankStatusSerializer::class)
 enum class BankStatus(val value: String) {
-    @SerialName("UNKNOWN") UNKNOWN_VALUE("UNKNOWN"),
     @SerialName("STRD") STARTED("STRD"),
     @SerialName("ACCC") ACCEPTED_SETTLEMENT_COMPLETED_CREDITOR("ACCC"),
     @SerialName("ACCP") ACCEPTED_CUSTOMER_PROFILE("ACCP"),
@@ -21,4 +20,5 @@ enum class BankStatus(val value: String) {
     @SerialName("CANC") CANCELLED("CANC"),
     @SerialName("ACFC") ACCEPTED_FUNDS_CHECKED("ACFC"),
     @SerialName("PATC") PARTIALLY_ACCEPTED_TECHNICAL("PATC"),
+    UNKNOWN_VALUE("UNKNOWN");
 }

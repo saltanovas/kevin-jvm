@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable(with = StatusGroupSerializer::class)
 enum class StatusGroup {
-    @SerialName("unknown") UNKNOWN_VALUE,
     @SerialName("started") STARTED,
     @SerialName("pending") PENDING,
     @SerialName("completed") COMPLETED,
     @SerialName("failed") FAILED,
+    UNKNOWN_VALUE;
 }

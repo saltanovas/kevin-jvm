@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable(with = AccountBalanceTypeSerializer::class)
 enum class AccountBalanceType {
-    @SerialName("unknown") UNKNOWN_VALUE,
     @SerialName("closingBooked") CLOSING_BOOKED,
     @SerialName("expected") EXPECTED,
     @SerialName("authorised") AUTHORISED,
@@ -14,5 +13,6 @@ enum class AccountBalanceType {
     @SerialName("interimAvailable") INTERIM_AVAILABLE,
     @SerialName("interimBooked") INTERIM_BOOKED,
     @SerialName("forwardAvailable") FORWARD_AVAILABLE,
-    @SerialName("nonInvoiced") NON_INVOICED
+    @SerialName("nonInvoiced") NON_INVOICED,
+    UNKNOWN_VALUE;
 }

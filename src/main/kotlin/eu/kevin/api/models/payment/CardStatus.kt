@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable(with = CardStatusSerializer::class)
 enum class CardStatus {
-    @SerialName("unknown") UNKNOWN_VALUE,
     @SerialName("started") STARTED,
     @SerialName("issued") ISSUED,
     @SerialName("paid") PAID,
@@ -38,5 +37,6 @@ enum class CardStatus {
     @SerialName("refund_forbidden") REFUND_FORBIDDEN,
     @SerialName("completed") COMPLETED,
     @SerialName("partially_refunded") PARTIALLY_REFUNDED,
-    @SerialName("refunded") REFUNDED
+    @SerialName("refunded") REFUNDED,
+    UNKNOWN_VALUE;
 }

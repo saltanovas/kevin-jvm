@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable(with = ScaApproachTypeSerializer::class)
 enum class ScaApproachType {
-    @SerialName("UNKNOWN") UNKNOWN_VALUE,
     @SerialName("REDIRECT") REDIRECT,
     @SerialName("DECOUPLED") DECOUPLED,
-    @SerialName("EMBEDDED") EMBEDDED
+    @SerialName("EMBEDDED") EMBEDDED,
+    UNKNOWN_VALUE;
 }

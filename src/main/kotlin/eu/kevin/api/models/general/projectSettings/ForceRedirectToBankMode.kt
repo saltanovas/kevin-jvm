@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable(with = ForceRedirectToBankModeSerializer::class)
 enum class ForceRedirectToBankMode {
-    @SerialName("unknown") UNKNOWN_VALUE,
     @SerialName("soft") SOFT,
     @SerialName("hard") HARD,
-    @SerialName("none") NONE
+    @SerialName("none") NONE,
+    UNKNOWN_VALUE;
 }
