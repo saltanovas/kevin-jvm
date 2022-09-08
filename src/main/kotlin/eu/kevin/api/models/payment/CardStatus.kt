@@ -1,9 +1,10 @@
 package eu.kevin.api.models.payment
 
+import eu.kevin.api.serializers.enums.CardStatusSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Serializable(with = CardStatusSerializer::class)
 enum class CardStatus {
     @SerialName("started") STARTED,
     @SerialName("issued") ISSUED,
@@ -11,7 +12,7 @@ enum class CardStatus {
     @SerialName("payment_success") PAYMENT_SUCCESS,
     @SerialName("payment_failure") PAYMENT_FAILURE,
     @SerialName("hold") HOLD,
-    @SerialName("canceled") CANCELED,
+    @SerialName("cancelled") CANCELLED,
     @SerialName("in_progress") IN_PROGRESS,
     @SerialName("invoice_viewed") INVOICE_VIEWED,
     @SerialName("invoice_refunded") INVOICE_REFUNDED,
@@ -29,9 +30,13 @@ enum class CardStatus {
     @SerialName("chargeback") CHARGEBACK,
     @SerialName("representation") REPRESENTATION,
     @SerialName("retrieval") RETRIEVAL,
-    @SerialName("prearbitrationgood_faith") PREARBITRATIONGOOD_FAITH,
+    @SerialName("prearbitration") PREARBITRATION,
     @SerialName("good_faith") GOOD_FAITH,
     @SerialName("fraud_advice") FRAUD_ADVICE,
     @SerialName("failed") FAILED,
-    @SerialName("refund_forbidden") REFUND_FORBIDDEN
+    @SerialName("refund_forbidden") REFUND_FORBIDDEN,
+    @SerialName("completed") COMPLETED,
+    @SerialName("partially_refunded") PARTIALLY_REFUNDED,
+    @SerialName("refunded") REFUNDED,
+    UNKNOWN_VALUE;
 }
