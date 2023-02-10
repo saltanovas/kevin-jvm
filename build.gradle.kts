@@ -22,6 +22,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core:${Versions.KTOR}")
     implementation("io.ktor:ktor-client-cio:${Versions.KTOR}")
     implementation("io.ktor:ktor-client-serialization:${Versions.KTOR}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
 
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-client-mock:${Versions.KTOR}")

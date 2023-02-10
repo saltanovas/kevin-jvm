@@ -4,6 +4,7 @@ import eu.kevin.api.Endpoint
 import eu.kevin.api.exceptions.KevinApiErrorException
 import eu.kevin.api.extensions.appendAtStartIfNotExist
 import eu.kevin.api.extensions.appendQueryParameter
+import eu.kevin.api.extensions.suspendingToCompletableFuture
 import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequest
 import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequestBody
 import eu.kevin.api.models.payment.payment.response.InitiatePaymentResponse
@@ -15,15 +16,16 @@ import eu.kevin.api.models.payment.refund.InitiatePaymentRefundResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import java.util.concurrent.CompletableFuture
 
 /**
- * Implements API Methods of the [Payment initiation service](https://docs.kevin.eu/public/platform/v0.3#tag/Payment-Initiation-Service)
+ * Implements API Methods of the [Payment initiation service](https://api-reference.kevin.eu/public/platform/v0.3#tag/Payment-Initiation-Service)
  */
 class PaymentClient internal constructor(
     private val httpClient: HttpClient
 ) {
     /**
-     * API Method: [Initiate payment](https://docs.kevin.eu/public/platform/v0.3#operation/initiatePayment)
+     * API Method: [Initiate payment](https://api-reference.kevin.eu/public/platform/v0.3#tag/Payment-Initiation-Service/operation/initiatePayment)
      */
     @Throws(KevinApiErrorException::class)
     suspend fun initiatePayment(request: InitiatePaymentRequest): InitiatePaymentResponse =
@@ -60,7 +62,15 @@ class PaymentClient internal constructor(
         }
 
     /**
-     * API Method: [Get payment status](https://docs.kevin.eu/public/platform/v0.3#operation/getPaymentStatus)
+     * Equivalent of suspending `initiatePayment(request: InitiatePaymentRequest)` for Java interoperability
+     */
+    @JvmName("initiatePayment")
+    fun initiatePaymentAsFuture(request: InitiatePaymentRequest): CompletableFuture<InitiatePaymentResponse> {
+        return suspendingToCompletableFuture { initiatePayment(request) }
+    }
+
+    /**
+     * API Method: [Get payment status](https://api-reference.kevin.eu/public/platform/v0.3#tag/Payment-Initiation-Service/operation/getPaymentStatus)
      */
     @Throws(KevinApiErrorException::class)
     suspend fun getPaymentStatus(request: GetPaymentStatusRequest): GetPaymentStatusResponse =
@@ -69,7 +79,15 @@ class PaymentClient internal constructor(
         )
 
     /**
-     * API Method: [Initiate payment refund](https://docs.kevin.eu/public/platform/v0.3#operation/initiatePaymentRefund)
+     * Equivalent of suspending `getPaymentStatus(request: GetPaymentStatusRequest)` for Java interoperability
+     */
+    @JvmName("getPaymentStatus")
+    fun getPaymentStatusAsFuture(request: GetPaymentStatusRequest): CompletableFuture<GetPaymentStatusResponse> {
+        return suspendingToCompletableFuture { getPaymentStatus(request) }
+    }
+
+    /**
+     * API Method: [Initiate payment refund](https://api-reference.kevin.eu/public/platform/v0.3#tag/Payment-Initiation-Service/operation/initiatePaymentRefund)
      */
     @Throws(KevinApiErrorException::class)
     suspend fun initiatePaymentRefund(request: InitiatePaymentRefundRequest): InitiatePaymentRefundResponse =
@@ -83,4 +101,12 @@ class PaymentClient internal constructor(
                 }
             }
         }
+
+    /**
+     * Equivalent of suspending ` initiatePaymentRefund(request: InitiatePaymentRefundRequest)` for Java interoperability
+     */
+    @JvmName("initiatePaymentRefund")
+    fun initiatePaymentRefundAsFuture(request: InitiatePaymentRefundRequest): CompletableFuture<InitiatePaymentRefundResponse> {
+        return suspendingToCompletableFuture { initiatePaymentRefund(request) }
+    }
 }
