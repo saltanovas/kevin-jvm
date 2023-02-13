@@ -26,7 +26,7 @@ Package and installation instructions are available at the [Maven Central Reposi
 
 ### Gradle
 ```
-implementation 'eu.kevin:kevin-jvm:0.2.7'
+implementation 'eu.kevin:kevin-jvm:0.2.9'
 ```
 
 ## Usage Examples
