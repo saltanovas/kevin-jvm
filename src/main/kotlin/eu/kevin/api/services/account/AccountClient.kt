@@ -3,6 +3,7 @@ package eu.kevin.api.services.account
 import eu.kevin.api.Endpoint
 import eu.kevin.api.exceptions.KevinApiErrorException
 import eu.kevin.api.extensions.appendAtStartIfNotExist
+import eu.kevin.api.extensions.suspendingToCompletableFuture
 import eu.kevin.api.models.ResponseArray
 import eu.kevin.api.models.account.AccountRequestHeaders
 import eu.kevin.api.models.account.balance.request.GetAccountBalanceRequest
@@ -15,9 +16,10 @@ import eu.kevin.api.models.account.transaction.response.AccountTransactionRespon
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.serialization.json.Json
+import java.util.concurrent.CompletableFuture
 
 /**
- * Implements API Methods of the [Account information service](https://docs.kevin.eu/public/platform/v0.3#tag/Account-Information-Service)
+ * Implements API Methods of the [Account information service](https://api-reference.kevin.eu/public/platform/v0.3#tag/Account-Information-Service)
  */
 class AccountClient internal constructor(
     private val httpClient: HttpClient,
@@ -25,7 +27,7 @@ class AccountClient internal constructor(
 ) {
 
     /**
-     *  API Method: [Get accounts list](https://docs.kevin.eu/public/platform/v0.3#operation/getAccounts)
+     *  API Method: [Get accounts list](https://api-reference.kevin.eu/public/platform/v0.3#tag/Account-Information-Service/operation/getAccounts)
      */
     @Throws(KevinApiErrorException::class)
     suspend fun getAccountsList(request: AccountRequestHeaders): List<AccountResponse> =
@@ -36,7 +38,15 @@ class AccountClient internal constructor(
         }.data
 
     /**
-     * API Method: [Get account details](https://docs.kevin.eu/public/platform/v0.3#operation/getAccount)
+     * Equivalent of suspending `getAccountsList(request: AccountRequestHeaders)` for Java interoperability
+     */
+    @JvmName("getAccountsList")
+    fun getAccountsListAsFuture(request: AccountRequestHeaders): CompletableFuture<List<AccountResponse>> {
+        return suspendingToCompletableFuture { getAccountsList(request) }
+    }
+
+    /**
+     * API Method: [Get account details](https://api-reference.kevin.eu/public/platform/v0.3#tag/Account-Information-Service/operation/getAccount)
      */
     @Throws(KevinApiErrorException::class)
     suspend fun getAccountDetails(request: GetAccountDetailsRequest): AccountDetailsResponse =
@@ -47,7 +57,15 @@ class AccountClient internal constructor(
         }
 
     /**
-     * API Method: [Get account transactions](https://docs.kevin.eu/public/platform/v0.3#operation/getAccountTransactions)
+     * Equivalent of suspending `getAccountDetails(request: GetAccountDetailsRequest)` for Java interoperability
+     */
+    @JvmName("getAccountDetails")
+    fun getAccountDetailsAsFuture(request: GetAccountDetailsRequest): CompletableFuture<AccountDetailsResponse> {
+        return suspendingToCompletableFuture { getAccountDetails(request) }
+    }
+
+    /**
+     * API Method: [Get account transactions](https://api-reference.kevin.eu/public/platform/v0.3#tag/Account-Information-Service/operation/getAccountTransactions)
      */
     @Throws(KevinApiErrorException::class)
     suspend fun getAccountTransactions(request: GetAccountTransactionsRequest): List<AccountTransactionResponse> =
@@ -60,7 +78,15 @@ class AccountClient internal constructor(
         }.data
 
     /**
-     * API Method: [Get account balance](https://docs.kevin.eu/public/platform/v0.3#operation/getAccountBalance)
+     * Equivalent of suspending `getAccountTransactions(request: GetAccountTransactionsRequest)` for Java interoperability
+     */
+    @JvmName("getAccountTransactions")
+    fun getAccountTransactionsAsFuture(request: GetAccountTransactionsRequest): CompletableFuture<List<AccountTransactionResponse>> {
+        return suspendingToCompletableFuture { getAccountTransactions(request) }
+    }
+
+    /**
+     * API Method: [Get account balance](https://api-reference.kevin.eu/public/platform/v0.3#tag/Account-Information-Service/operation/getAccountBalance)
      */
     @Throws(KevinApiErrorException::class)
     suspend fun getAccountBalances(request: GetAccountBalanceRequest): List<AccountBalanceResponse> =
@@ -69,6 +95,14 @@ class AccountClient internal constructor(
         ) {
             appendAccountRequestHeaders(headers = request.headers)
         }.data
+
+    /**
+     * Equivalent of suspending `getAccountBalances(request: GetAccountBalanceRequest)` for Java interoperability
+     */
+    @JvmName("getAccountBalances")
+    fun getAccountBalancesAsFuture(request: GetAccountBalanceRequest): CompletableFuture<List<AccountBalanceResponse>> {
+        return suspendingToCompletableFuture { getAccountBalances(request) }
+    }
 
     private fun HttpRequestBuilder.appendAccountRequestHeaders(headers: AccountRequestHeaders) {
         headers.run {
