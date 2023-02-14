@@ -20,7 +20,7 @@ Package and installation instructions are available at the [Maven Central Reposi
 <dependency>
   <groupId>eu.kevin</groupId>
   <artifactId>kevin-jvm</artifactId>
-  <version>0.2.7</version>
+  <version>0.2.9</version>
 </dependency>
 ```
 
