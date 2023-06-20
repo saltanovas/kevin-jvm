@@ -10,6 +10,7 @@ JVM client implementing [kevin. platform API v0.3](https://api-reference.kevin.e
 ## Prerequisites
 
 - Java 8+
+- Ktor 2.x
 
 ## Installation
 
