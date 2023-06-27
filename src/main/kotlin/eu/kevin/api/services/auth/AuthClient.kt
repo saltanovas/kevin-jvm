@@ -3,6 +3,7 @@ package eu.kevin.api.services.auth
 import eu.kevin.api.Endpoint
 import eu.kevin.api.exceptions.KevinApiErrorException
 import eu.kevin.api.extensions.appendAtStartIfNotExist
+import eu.kevin.api.extensions.appendPath
 import eu.kevin.api.extensions.suspendingToCompletableFuture
 import eu.kevin.api.models.auth.authentication.request.StartAuthenticationRequest
 import eu.kevin.api.models.auth.authentication.request.StartAuthenticationRequestBody
@@ -30,7 +31,7 @@ class AuthClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun startAuthentication(request: StartAuthenticationRequest): StartAuthenticationResponse =
         httpClient.post {
-            url(path = Endpoint.Paths.Auth.startAuthentication())
+            url { appendPath(Endpoint.Paths.Auth.startAuthentication()) }
             setBody(
                 StartAuthenticationRequestBody(
                     email = request.email,
@@ -65,7 +66,7 @@ class AuthClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun receiveToken(request: ReceiveTokenRequest): ReceiveTokenResponse =
         httpClient.post {
-            url(path = Endpoint.Paths.Auth.receiveToken())
+            url { appendPath(Endpoint.Paths.Auth.receiveToken()) }
             setBody(request)
         }.body()
 
@@ -83,7 +84,7 @@ class AuthClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun refreshToken(request: RefreshTokenRequest): ReceiveTokenResponse =
         httpClient.post {
-            url(path = Endpoint.Paths.Auth.receiveToken())
+            url { appendPath(Endpoint.Paths.Auth.receiveToken()) }
             setBody(request)
         }.body()
 
@@ -101,7 +102,7 @@ class AuthClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun receiveTokenContent(request: ReceiveTokenContentRequest): ReceiveTokenContentResponse =
         httpClient.get {
-            url(path = Endpoint.Paths.Auth.receiveTokenContent())
+            url { appendPath(Endpoint.Paths.Auth.receiveTokenContent()) }
             headers {
                 append(HttpHeaders.Authorization, request.accessToken.appendAtStartIfNotExist("Bearer "))
             }
