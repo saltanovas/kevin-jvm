@@ -3,7 +3,6 @@ package eu.kevin.api.services.account
 import eu.kevin.api.Endpoint
 import eu.kevin.api.exceptions.KevinApiErrorException
 import eu.kevin.api.extensions.appendAtStartIfNotExist
-import eu.kevin.api.extensions.appendPath
 import eu.kevin.api.extensions.suspendingToCompletableFuture
 import eu.kevin.api.models.ResponseArray
 import eu.kevin.api.models.account.AccountRequestHeaders
@@ -32,7 +31,7 @@ class AccountClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getAccountsList(request: AccountRequestHeaders): List<AccountResponse> =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.Account.getAccountsList()) }
+            url(path = Endpoint.Paths.Account.getAccountsList())
             appendAccountRequestHeaders(headers = request)
         }.body<ResponseArray<AccountResponse>>().data
 
@@ -50,7 +49,7 @@ class AccountClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getAccountDetails(request: GetAccountDetailsRequest): AccountDetailsResponse =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.Account.getAccountDetails(accountId = request.accountId)) }
+            url(path = Endpoint.Paths.Account.getAccountDetails(accountId = request.accountId))
             appendAccountRequestHeaders(headers = request.headers)
         }.body()
 
@@ -68,7 +67,7 @@ class AccountClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getAccountTransactions(request: GetAccountTransactionsRequest): List<AccountTransactionResponse> =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.Account.getAccountTransactions(accountId = request.accountId)) }
+            url(path = Endpoint.Paths.Account.getAccountTransactions(accountId = request.accountId))
             appendAccountRequestHeaders(headers = request.headers)
             parameter("dateFrom", request.dateFrom)
             parameter("dateTo", request.dateTo)
@@ -88,7 +87,7 @@ class AccountClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getAccountBalances(request: GetAccountBalanceRequest): List<AccountBalanceResponse> =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.Account.getAccountBalance(accountId = request.accountId)) }
+            url(path = Endpoint.Paths.Account.getAccountBalance(accountId = request.accountId))
             appendAccountRequestHeaders(headers = request.headers)
         }.body<ResponseArray<AccountBalanceResponse>>().data
 

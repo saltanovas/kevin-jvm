@@ -2,7 +2,6 @@ package eu.kevin.api.services.general
 
 import eu.kevin.api.Endpoint
 import eu.kevin.api.exceptions.KevinApiErrorException
-import eu.kevin.api.extensions.appendPath
 import eu.kevin.api.extensions.suspendingToCompletableFuture
 import eu.kevin.api.models.ResponseArray
 import eu.kevin.api.models.general.bank.BankResponse
@@ -24,7 +23,7 @@ class GeneralClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getSupportedCountries(): List<String> =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.General.getSupportedCountries()) }
+            url(path = Endpoint.Paths.General.getSupportedCountries())
         }.body<ResponseArray<String>>().data
 
     /**
@@ -42,7 +41,7 @@ class GeneralClient internal constructor(
     @JvmOverloads
     suspend fun getSupportedBanks(countryCode: String? = null): List<BankResponse> =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.General.getSupportedBanks()) }
+            url(path = Endpoint.Paths.General.getSupportedBanks())
             parameter("countryCode", countryCode)
         }.body<ResponseArray<BankResponse>>().data
 
@@ -60,7 +59,7 @@ class GeneralClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getSupportedBank(bankId: String): BankResponse =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.General.getSupportedBank(bankId = bankId)) }
+            url(path = Endpoint.Paths.General.getSupportedBank(bankId = bankId))
         }.body()
 
     /**
@@ -77,7 +76,7 @@ class GeneralClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getSupportedBankByCardNumberPiece(cardNumberPiece: String): BankResponse =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.General.getSupportedBankByCardNumberPiece(cardNumberPiece = cardNumberPiece)) }
+            url(path = Endpoint.Paths.General.getSupportedBankByCardNumberPiece(cardNumberPiece = cardNumberPiece))
         }.body()
 
     /**
@@ -94,7 +93,7 @@ class GeneralClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getPaymentMethods(): List<String> =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.General.getPaymentMethods()) }
+            url(path = Endpoint.Paths.General.getPaymentMethods())
         }.body<ResponseArray<String>>().data
 
     /**
@@ -111,7 +110,7 @@ class GeneralClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getProjectSettings(): GetProjectSettingsResponse =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.General.getProjectSettings()) }
+            url(path = Endpoint.Paths.General.getProjectSettings())
         }.body()
 
     /**

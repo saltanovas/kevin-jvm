@@ -3,7 +3,6 @@ package eu.kevin.api.services.payment
 import eu.kevin.api.Endpoint
 import eu.kevin.api.exceptions.KevinApiErrorException
 import eu.kevin.api.extensions.appendAtStartIfNotExist
-import eu.kevin.api.extensions.appendPath
 import eu.kevin.api.extensions.suspendingToCompletableFuture
 import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequest
 import eu.kevin.api.models.payment.payment.request.InitiatePaymentRequestBody
@@ -32,7 +31,7 @@ class PaymentClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun initiatePayment(request: InitiatePaymentRequest): InitiatePaymentResponse =
         httpClient.post {
-            url { appendPath(Endpoint.Paths.Payment.initiatePayment()) }
+            url(path = Endpoint.Paths.Payment.initiatePayment())
             setBody(
                 InitiatePaymentRequestBody(
                     amount = request.amount,
@@ -73,7 +72,7 @@ class PaymentClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun getPaymentStatus(request: GetPaymentStatusRequest): GetPaymentStatusResponse =
         httpClient.get {
-            url { appendPath(Endpoint.Paths.Payment.getPaymentStatus(paymentId = request.paymentId)) }
+            url(path = Endpoint.Paths.Payment.getPaymentStatus(paymentId = request.paymentId))
         }.body()
 
     /**
@@ -90,7 +89,7 @@ class PaymentClient internal constructor(
     @Throws(KevinApiErrorException::class)
     suspend fun initiatePaymentRefund(request: InitiatePaymentRefundRequest): InitiatePaymentRefundResponse =
         httpClient.post {
-            url { appendPath(Endpoint.Paths.Payment.initiatePaymentRefund(paymentId = request.paymentId)) }
+            url(path = Endpoint.Paths.Payment.initiatePaymentRefund(paymentId = request.paymentId))
             setBody(InitiatePaymentRefundRequestBody(amount = request.amount))
             headers {
                 request.webhookUrl?.let { append("Webhook-URL", it) }
